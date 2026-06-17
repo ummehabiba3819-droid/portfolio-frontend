@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ummehabiba | Student Frontend Developer Portfolio</title>
+    <title>Ummehabiba | Frontend Developer Portfolio</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
+    <!-- Font Awesome (for the GitHub / external-link icons used in project cards) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
         /* --- GLOBAL INITIAL STYLES --- */
         * {
@@ -20,7 +22,7 @@
         }
 
         body {
-            background-color: #050514; 
+            background-color: #050514;
             color: #ffffff;
             overflow-x: hidden;
         }
@@ -57,10 +59,26 @@
             margin-left: 2rem;
             font-weight: 400;
             transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(135deg, #a259ff, #ff59b3);
+            transition: width 0.3s ease;
         }
 
         .nav-links a:hover {
             color: #ffffff;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         .hero-content {
@@ -98,11 +116,42 @@
             text-decoration: none;
             display: inline-block;
             box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
+            box-shadow: 0 8px 22px rgba(108, 92, 231, 0.55);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid #3a3a6a;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: #a259ff;
+            transform: translateY(-3px);
+        }
+
+        /* --- SCROLL REVEAL --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* --- FRAME 2: ABOUT ME --- */
@@ -137,63 +186,116 @@
 
         .work-frame h2 {
             font-size: 2.5rem;
-            margin-bottom: 3rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .work-frame .section-sub {
+            color: #a0a0c0;
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+            font-size: 1rem;
         }
 
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
             max-width: 1100px;
             margin: 0 auto;
         }
 
-        .work-card {
+        .project-card {
             background: #11112a;
             border: 1px solid #222244;
             border-radius: 16px;
-            padding: 2.5rem 2rem;
+            overflow: hidden;
             text-align: left;
-            transition: transform 0.3s;
+            transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
         }
 
-        .work-card .tag {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: #a259ff;
-            background: rgba(162, 89, 255, 0.1);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            margin-bottom: 1rem;
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: #a259ff;
+            box-shadow: 0 14px 30px rgba(108, 92, 231, 0.25);
         }
 
-        .work-card h3 {
-            margin-bottom: 0.8rem;
+        .project-thumb {
+            width: 100%;
+            height: 190px;
+            background: linear-gradient(135deg, #1b124a, #2a1a5e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6a6a9a;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #222244;
+            overflow: hidden;
+        }
+
+        .project-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .project-info {
+            padding: 2rem 1.8rem;
+        }
+
+        .project-info h3 {
+            margin-bottom: 0.6rem;
             font-size: 1.4rem;
         }
 
-        .work-card p {
+        .project-info p {
             color: #a0a0c0;
             font-size: 0.95rem;
             line-height: 1.6;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
-        .card-link {
-            color: #ff59b3;
+        .tech {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #a259ff;
+            margin-bottom: 1.4rem;
+            letter-spacing: 0.3px;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .proj-link {
+            color: #d0d0e8;
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color 0.3s;
         }
 
-        .card-link:hover {
+        .proj-link i {
+            font-size: 0.95rem;
+        }
+
+        .proj-link:hover {
             color: #ffffff;
-            text-decoration: underline;
         }
 
-        .work-card:hover {
-            transform: translateY(-5px);
+        .proj-link.live {
+            color: #ff59b3;
+        }
+
+        .proj-link.live:hover {
+            color: #ffffff;
         }
 
         /* --- FRAME 4: CONTACT FORM --- */
@@ -225,6 +327,12 @@
             color: white;
             border-radius: 8px;
             font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .contact-frame input:focus, .contact-frame textarea:focus {
+            outline: none;
+            border-color: #a259ff;
         }
 
         .contact-frame textarea {
@@ -241,6 +349,23 @@
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+        }
+
+        .contact-note {
+            margin-top: 1.2rem;
+            color: #6a6a8a;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .contact-note a {
+            color: #a259ff;
+            text-decoration: none;
         }
 
         /* --- FRAME 5: FOOTER --- */
@@ -268,48 +393,80 @@
             <div class="nav-links">
                 <a href="#">Home</a>
                 <a href="#about">About me</a>
-                <a href="#work">My Practice</a>
+                <a href="#work">Projects</a>
                 <a href="#contact">Contact</a>
             </div>
         </nav>
         <div class="hero-content">
-            <h1>Aspiring Frontend Developer <br><span>Ummehabiba</span></h1>
-            <p style="color: #a0a0c0; margin-bottom: 2rem; font-size: 1.2rem;">University student practicing responsive web layouts and clean code coding.</p>
+            <h1>Frontend Developer <br><span>Ummehabiba</span></h1>
+            <p style="color: #a0a0c0; margin-bottom: 2rem; font-size: 1.2rem;">I build responsive, interactive web interfaces — from semantic HTML layouts to React apps powered by live APIs.</p>
             <div class="buttons">
-                <a href="#contact" class="btn-primary">Send Message</a>
+                <a href="#work" class="btn-primary">View Projects</a>
+                <a href="#contact" class="btn-secondary">Get in Touch</a>
             </div>
         </div>
         <div></div>
     </section>
 
     <!-- FRAME 2: About Me Section -->
-    <section id="about" class="about-frame">
+    <section id="about" class="about-frame reveal">
         <h2>About me</h2>
-        <p>Hi, I am Ummehabiba! I am a university student interested in designing frontend systems. This landing page is part of my practice to master responsive design layouts using HTML and CSS. I'm focusing heavily on building clean code structures as I start my tech journey.</p>
+        <p>Hi, I'm Ummehabiba — a BSCS student building frontend interfaces with HTML, CSS, JavaScript, and React. I enjoy turning designs into responsive, interactive layouts, and I'm continually expanding into new tools and frameworks as I grow as a developer.</p>
     </section>
 
-    <!-- FRAME 3: Practice Work -->
-    <section id="work" class="work-frame">
-        <h2>My Learning Path</h2>
+    <!-- FRAME 3: Projects -->
+    <section id="work" class="work-frame reveal">
+        <h2>Projects</h2>
+        <p class="section-sub">A few things I've built while learning frontend and UI development.</p>
         <div class="portfolio-grid">
-            <div class="work-card">
-                <span class="tag">HTML5 & CSS3</span>
-                <h3>Figma to Code Challenge</h3>
-                <p>This actual webpage layout! I practiced taking a professional 5-frame desktop Figma file and translating it into a responsive webpage structure.</p>
-                <!-- REPLACE THE LINK BELOW WITH YOUR GITHUB LINK -->
-                <a href="https://github.com/ummehabiba3819-droid" target="_blank" class="card-link">View Code Repository →</a>
+
+            <!-- PROJECT CARD 1: MOVIE EXPLORER -->
+            <div class="project-card">
+                <div class="project-thumb">
+                    <!-- Replace this with: <img src="movie-explorer-screenshot.png" alt="Movie Search Web App"> -->
+                    Add screenshot here
+                </div>
+                <div class="project-info">
+                    <h3>Movie Search Web App</h3>
+                    <p>Search movies dynamically using real-time data from the OMDb API, with dynamic routing and a favourites manager.</p>
+                    <span class="tech">React • Vite • CSS3 • JavaScript (ES6+)</span>
+                    <div class="project-links">
+                        <a href="https://github.com/ummehabiba3819-droid/movie-explorer" target="_blank" class="proj-link">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                        <a href="https://ummehabiba3819-droid.github.io/movie-explorer/#/" target="_blank" class="proj-link live">
+                            <i class="fas fa-external-link-alt"></i> Live Demo
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="work-card">
-                <span class="tag">CSS Layouts</span>
-                <h3>Responsive Design Practice</h3>
-                <p>Learning how to use CSS Media Queries to make sections look well proportioned and readable on both computer monitors and mobile devices.</p>
-                <a href="https://github.com/ummehabiba3819-droid" target="_blank" class="card-link">View GitHub Profile →</a>
+
+            <!-- PROJECT CARD 2: DEPARTMENT WEBSITE -->
+            <div class="project-card">
+                <div class="project-thumb">
+                    <!-- Replace this with: <img src="webpage-screenshot.png" alt="Department Website"> -->
+                    Add screenshot here
+                </div>
+                <div class="project-info">
+                    <h3>Department Website</h3>
+                    <p>A fully semantic, accessible, and responsive academic website built for the Department of Computer Science & IT.</p>
+                    <span class="tech">HTML5 • CSS3 • Responsive Design</span>
+                    <div class="project-links">
+                        <a href="https://github.com/ummehabiba3819-droid/webpage" target="_blank" class="proj-link">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                        <a href="https://ummehabiba3819-droid.github.io/webpage/" target="_blank" class="proj-link live">
+                            <i class="fas fa-external-link-alt"></i> Live Demo
+                        </a>
+                    </div>
+                </div>
             </div>
+
         </div>
     </section>
 
     <!-- FRAME 4: Contact Form -->
-    <section id="contact" class="contact-frame">
+    <section id="contact" class="contact-frame reveal">
         <h2>Contact Me</h2>
         <form onsubmit="alert('Message simulation successful! Your form works.'); return false;">
             <input type="text" placeholder="Name" required>
@@ -317,12 +474,29 @@
             <textarea placeholder="Your message" required></textarea>
             <button type="submit" class="btn-submit">Send message</button>
         </form>
+        <p class="contact-note">This form is a UI demo for now — reach me directly at <a href="mailto:ummehabiba3819@gmail.com">ummehabiba3819@gmail.com</a></p>
     </section>
 
     <!-- FRAME 5: Footer -->
     <footer class="footer-frame">
-        <p>© 2026 Ummehabiba • Student Practice Portfolio</p>
+        <p>© 2026 Ummehabiba • Built with HTML, CSS & JavaScript</p>
     </footer>
 
+    <script>
+        // Scroll-reveal: sections fade/slide in as they enter the viewport
+        const revealEls = document.querySelectorAll('.reveal');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // animate once
+                }
+            });
+        }, { threshold: 0.15 });
+
+        revealEls.forEach(el => observer.observe(el));
+    </script>
+
 </body>
-</html>   
+</html>
